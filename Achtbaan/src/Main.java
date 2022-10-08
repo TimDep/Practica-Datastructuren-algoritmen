@@ -22,13 +22,12 @@ public class Main {
                 System.out.println("Dit zijn te weinig segmenten om een achtbaan te maken.");
             } else if (aantalSegmenten >500) {
                 System.out.println("Dit zijn te veel segmenten om een achtbaan te maken.");
+            } else {
+                String segment = sc.nextLine();
+                for (int j =0; j<segment.length(); j++){
+                    String hallo = zoekenNaarCharacter(segment.charAt(j));
+                }
             }
-            String segment = sc.nextLine();
-            for (int j =0; j<segment.length(); j++){
-                String hallo = zoekenNaarCharacter(segment.charAt(j));
-            }
-
-
         }
 
 
