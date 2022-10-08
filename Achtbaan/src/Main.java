@@ -58,6 +58,8 @@ public class Main {
         Map<Integer, ArrayList<String>> achtbaan = new HashMap<>();
         ArrayList<String> route = new ArrayList<>();
 
+        int westgaan = 1;
+
 
         for(int i =0; i <segment.length();i++) {
             if (segment.charAt(i) == 'L') {
@@ -67,7 +69,8 @@ public class Main {
                     standaardRichting = 'N';
                 } else if (standaardRichting == 'W') {
                     int index = achtbaan.get(verdiep).size() - 1;
-                    achtbaan.get(verdiep).set(index, "_");
+                    route.set(index, "_");
+                    achtbaan.put(verdiep, route);
                     standaardRichting = 'Z';
 
                 } else if (standaardRichting == 'N') {
@@ -75,7 +78,8 @@ public class Main {
 
                 } else if (standaardRichting == 'Z') {
                     int index = achtbaan.get(verdiep).size() - 1;
-                    achtbaan.get(verdiep).set(index, "_");
+                    route.set(index, "_");
+                    achtbaan.put(verdiep, route);
                     standaardRichting = 'O';
 
                 }
@@ -86,7 +90,8 @@ public class Main {
                     standaardRichting = 'Z';
                 } else if (standaardRichting == 'W') {
                     int index = achtbaan.get(verdiep).size()-1;
-                    achtbaan.get(verdiep).set(index, "_");
+                    route.set(index, "_");
+                    achtbaan.put(verdiep, route);
                     standaardRichting = 'N';
 
                 } else if (standaardRichting == 'N') {
@@ -94,7 +99,8 @@ public class Main {
 
                 } else if (standaardRichting == 'Z') {
                     int index = achtbaan.get(verdiep).size() - 1;
-                    achtbaan.get(verdiep).set(index, "_");
+                    route.set(index, "_");
+                    achtbaan.put(verdiep, route);
                     standaardRichting = 'W';
 
                 }
@@ -106,8 +112,10 @@ public class Main {
 
             } else if (segment.charAt(i) == 'V') {
                 if (standaardRichting == 'W') {
-                    int index = achtbaan.get(verdiep).size() - 1;
-                    achtbaan.get(verdiep).set(index, "_");
+                    int index = achtbaan.get(verdiep).size() - westgaan;
+                    route.set(index, "_");
+                    achtbaan.put(verdiep, route);
+                    westgaan+=1;
 
                 } else if (standaardRichting == 'O') {
                     route.add("_");
