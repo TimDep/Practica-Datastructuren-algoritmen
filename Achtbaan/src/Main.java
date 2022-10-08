@@ -1,7 +1,6 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
+
+import static java.util.Map.entry;
 
 public class Main {
 
@@ -33,14 +32,23 @@ public class Main {
 
     }
 
-    private static String zoekenNaarCharacter(char segment){
-        Map<String, String> omhoog = new HashMap<>();
-        Map<String, String> omlaag = new HashMap<>();
+    private static Map<String, String> krijgDeOmhoogMap() {
+        return Map.ofEntries(
+                entry("O", "/"),
+                entry("Z", "#"),
+                entry("W", "\\"),
+                entry("N", "#")
+        );
+    }
 
-        omhoog.put("O", "/");
-        omhoog.put("Z", "#");
-        omhoog.put("W", "\\");
-        omhoog.put("N", "#");
+    private static String zoekenNaarCharacter(char segment){
+        Map<String, String> omhoog = krijgDeOmhoogMap();
+        Map<String, String> omlaag = new HashMap<>();
+//
+//        omhoog.put("O", "/");
+//        omhoog.put("Z", "#");
+//        omhoog.put("W", "\\");
+//        omhoog.put("N", "#");
         omlaag.put("O","\\");
         omlaag.put("Z", "#");
         omlaag.put("W","/");
@@ -82,5 +90,33 @@ public class Main {
         return null;
     }
 
+
+
+    private static void getArray() {
+        Map<Integer, ArrayList<String>> achtbaan = new HashMap<>();
+        ArrayList<String> route = new ArrayList<>();
+        achtbaan.put(0, route);
+
+        achtbaan.get(0).add("#");
+
+        ArrayList<String> copyRoute = achtbaan.get(0);
+        achtbaan.get(0).clear();
+        achtbaan.get(0).add("");
+        achtbaan.get(0).addAll(copyRoute);
+
+        boolean naarBeneden = true;
+        if (naarBeneden) {
+            Integer achtbaanLengte = achtbaan.get(0).size();
+        }
+
+        boolean overschrijven = true;
+        if (overschrijven) {
+            achtbaan.get(0).set(3, "#");
+        }
+
+
+
+
+    }
 
 }
