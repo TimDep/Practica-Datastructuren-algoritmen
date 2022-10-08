@@ -4,7 +4,8 @@ import static java.util.Map.entry;
 
 public class Main {
 
-    private static final String windrichtingen = "OZWN";
+    private static Character standaardRichting = 'O';
+    private static int verdiep=0;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -23,9 +24,9 @@ public class Main {
                 System.out.println("Dit zijn te veel segmenten om een achtbaan te maken.");
             } else {
                 String segment = sc.nextLine();
-                for (int j =0; j<segment.length(); j++){
-                    String hallo = zoekenNaarCharacter(segment.charAt(j));
-                }
+                Map<Integer, ArrayList<String>> uitkomst = zoekenNaarCharacter(segment);
+
+                System.out.println(uitkomst.get(verdiep));
             }
         }
 
@@ -41,82 +42,125 @@ public class Main {
         );
     }
 
-    private static String zoekenNaarCharacter(char segment){
-        Map<String, String> omhoog = krijgDeOmhoogMap();
-        Map<String, String> omlaag = new HashMap<>();
-//
-//        omhoog.put("O", "/");
-//        omhoog.put("Z", "#");
-//        omhoog.put("W", "\\");
-//        omhoog.put("N", "#");
-        omlaag.put("O","\\");
-        omlaag.put("Z", "#");
-        omlaag.put("W","/");
-        omlaag.put("N", "#");
-
-        Character standaardRichting = 'O';
-
-
-        if(Character.toString(segment) == "L" ){
-            int index = windrichtingen.indexOf((standaardRichting));
-            if(index == 0){
-                index = windrichtingen.length();
-                standaardRichting = windrichtingen.charAt(index);
-            }
-            else{
-                standaardRichting = windrichtingen.charAt(index-1);
-            }
-        } else if(Character.toString(segment) == "R" ){
-            int index = windrichtingen.indexOf((standaardRichting));
-            if(index == windrichtingen.length()-1){
-                index = 0;
-                standaardRichting = windrichtingen.charAt(index);
-            }
-            else{
-                standaardRichting = windrichtingen.charAt(index+1);
-            }
-        } else if (Character.toString(segment) == "S") {
-
-        } else if (Character.toString(segment) == "V") {
-
-        } else if (Character.toString(segment) == "U") {
-
-        } else if (Character.toString(segment) == "D") {
-
-        }
-
-
-        System.out.println(omlaag.get("O"));
-        return null;
+    private static Map<String, String> krijgDeOmlaagMap() {
+        return Map.ofEntries(
+                entry("O", "\\"),
+                entry("Z", "#"),
+                entry("W", "/"),
+                entry("N", "#")
+        );
     }
 
 
-
-    private static void getArray() {
+    private static Map<Integer, ArrayList<String>> zoekenNaarCharacter(String segment){
+        Map<String, String> omhoog = krijgDeOmhoogMap();
+        Map<String, String> omlaag = krijgDeOmlaagMap();
         Map<Integer, ArrayList<String>> achtbaan = new HashMap<>();
         ArrayList<String> route = new ArrayList<>();
-        achtbaan.put(0, route);
 
-        achtbaan.get(0).add("#");
 
-        ArrayList<String> copyRoute = achtbaan.get(0);
-        achtbaan.get(0).clear();
-        achtbaan.get(0).add("");
-        achtbaan.get(0).addAll(copyRoute);
+        for(int i =0; i <segment.length();i++) {
+            if (segment.charAt(i) == 'L') {
+                if (standaardRichting == 'O') {
+                    route.add("_");
+                    achtbaan.put(verdiep, route);
+                    standaardRichting = 'N';
+                } else if (standaardRichting == 'W') {
+                    int index = achtbaan.get(verdiep).size() - 1;
+                    achtbaan.get(verdiep).set(index, "_");
+                    standaardRichting = 'Z';
 
-        boolean naarBeneden = true;
-        if (naarBeneden) {
-            Integer achtbaanLengte = achtbaan.get(0).size();
+                } else if (standaardRichting == 'N') {
+                    standaardRichting = 'W';
+
+                } else if (standaardRichting == 'Z') {
+                    int index = achtbaan.get(verdiep).size() - 1;
+                    achtbaan.get(verdiep).set(index, "_");
+                    standaardRichting = 'O';
+
+                }
+            } else if (segment.charAt(i) == 'R') {
+                if (standaardRichting == 'O') {
+                    route.add("_");
+                    achtbaan.put(verdiep, route);
+                    standaardRichting = 'Z';
+                } else if (standaardRichting == 'W') {
+                    int index = achtbaan.get(verdiep).size()-1;
+                    achtbaan.get(verdiep).set(index, "_");
+                    standaardRichting = 'N';
+
+                } else if (standaardRichting == 'N') {
+                    standaardRichting = 'O';
+
+                } else if (standaardRichting == 'Z') {
+                    int index = achtbaan.get(verdiep).size() - 1;
+                    achtbaan.get(verdiep).set(index, "_");
+                    standaardRichting = 'W';
+
+                }
+
+            } else if (segment.charAt(i) == 'S') {
+                route.add("=");
+                achtbaan.put(verdiep, route);
+
+
+            } else if (segment.charAt(i) == 'V') {
+                if (standaardRichting == 'W') {
+                    int index = achtbaan.get(verdiep).size() - 1;
+                    achtbaan.get(verdiep).set(index, "_");
+
+                } else if (standaardRichting == 'O') {
+                    route.add("_");
+                    achtbaan.put(verdiep,route);
+
+                } else {
+
+                }
+
+
+            } else if (segment.charAt(i) == 'U') {
+
+
+            } else if (segment.charAt(i) == 'D') {
+
+            }
         }
+        return achtbaan;
+    }
 
-        boolean overschrijven = true;
-        if (overschrijven) {
-            achtbaan.get(0).set(3, "#");
-        }
+
+
+    //private static void getArray() {
+
+        //achtbaan.put(0, route);
+
+        //achtbaan.get(0).add("#");
+
+        //ArrayList<String> copyRoute = achtbaan.get(0);
+        //achtbaan.get(0).clear();
+        //achtbaan.get(0).add("");
+        //achtbaan.get(0).addAll(copyRoute);
+
+        //boolean naarBeneden = true;
+        //if (naarBeneden) {
+          //  Integer achtbaanLengte = achtbaan.get(0).size();
+        //}
+
+        //boolean overschrijven = true;
+        //if (overschrijven) {
+          //  achtbaan.get(0).set(3, "#");
+        //}
 
 
 
 
     }
+    //int index = windrichtingen.indexOf((standaardRichting));
+    //            if(index == windrichtingen.length()-1){
+    //                index = 0;
+    //                standaardRichting = windrichtingen.charAt(index);
+    //            }
+    //            else{
+    //                standaardRichting = windrichtingen.charAt(index+1);
+    //            }
 
-}
