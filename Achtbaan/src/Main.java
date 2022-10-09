@@ -51,11 +51,16 @@ public class Main {
         );
     }
 
+    private static Map<Integer, ArrayList<String>> initialiseerAchtbaan() {
+        Map<Integer, ArrayList<String>> achtbaan = new HashMap<>();
+        achtbaan.put(verdiep, new ArrayList<>());
+        return achtbaan;
+    }
 
     private static Map<Integer, ArrayList<String>> zoekenNaarCharacter(String segment){
         Map<String, String> omhoog = krijgDeOmhoogMap();
         Map<String, String> omlaag = krijgDeOmlaagMap();
-        Map<Integer, ArrayList<String>> achtbaan = new HashMap<>();
+        Map<Integer, ArrayList<String>> achtbaan = initialiseerAchtbaan();
         ArrayList<String> route = new ArrayList<>();
 
         int westgaan = 1;
@@ -106,8 +111,8 @@ public class Main {
                 }
 
             } else if (segment.charAt(i) == 'S') {
-                route.add("=");
-                achtbaan.put(verdiep, route);
+                //route.add("=");
+                achtbaan.get(verdiep).add("=");
 
 
             } else if (segment.charAt(i) == 'V') {
