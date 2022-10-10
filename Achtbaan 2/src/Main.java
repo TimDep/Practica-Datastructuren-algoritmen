@@ -2,7 +2,6 @@ import java.util.*;
 
 public class Main {
 
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int aantalTestgevallen = Integer.parseInt(sc.nextLine());
@@ -14,6 +13,7 @@ public class Main {
         }
         for (int i = 1; i <= aantalTestgevallen; i++) {
             int aantalSegmenten = Integer.parseInt(sc.next());
+
             if (aantalSegmenten < 6) {
                 System.out.println("Dit zijn te weinig segmenten om een achtbaan te maken.");
             } else if (aantalSegmenten > 500) {
@@ -22,14 +22,9 @@ public class Main {
                 String segment = sc.nextLine();
                 int verdiep = 0;
                 Map<Integer, ArrayList<String>> uitkomst = zoekenNaarCharacter(segment, verdiep);
-
                 printenUitkomst(uitkomst, i);
-                verdiep = 0;
-
             }
         }
-
-
     }
 
     private static Map<Integer, ArrayList<String>> initialiseerAchtbaan(int verdiep) {
@@ -40,16 +35,14 @@ public class Main {
 
     private static Map<Integer, ArrayList<String>> zoekenNaarCharacter(String segment, int verdiep) {
         Map<Integer, ArrayList<String>> achtbaan = initialiseerAchtbaan(verdiep);
-        ArrayList<String> route = new ArrayList<>();
-
         int bepaaldePlaats = 0;
         int achterOfVoor = 0;
         char standaardRichting = 'O';
 
-
         for (int i = 0; i < segment.length(); i++) {
             initNieuwVerdiep(achtbaan, verdiep, bepaaldePlaats);
             if (segment.charAt(i) == 'L') {
+
                 if (standaardRichting == 'O') {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
                     achtbaan.get(verdiep).add("_");
@@ -65,9 +58,10 @@ public class Main {
                 } else if (standaardRichting == 'Z') {
                     bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
                     standaardRichting = 'O';
-
                 }
+
             } else if (segment.charAt(i) == 'R') {
+
                 if (standaardRichting == 'O') {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
                     achtbaan.get(verdiep).add("_");
@@ -84,15 +78,13 @@ public class Main {
 
                 } else if (standaardRichting == 'Z') {
                     standaardRichting = 'W';
-
                 }
 
             } else if (segment.charAt(i) == 'S') {
                 achtbaan.get(verdiep).add("=");
                 bepaaldePlaats++;
-
-
             } else if (segment.charAt(i) == 'V') {
+
                 if (standaardRichting == 'W') {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
                     if (achterOfVoor == 1) {
@@ -101,20 +93,16 @@ public class Main {
                         } else {
                             bepaaldePlaats--;
                         }
-
-
                     } else if (achterOfVoor == 2) {
                         bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
-
-
                     }
-
 
                 } else if (standaardRichting == 'O') {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
                     bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
                 }
             } else if (segment.charAt(i) == 'U') {
+
                 if (standaardRichting == 'O') {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
                     bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "/", bepaaldePlaats, standaardRichting);
@@ -126,43 +114,33 @@ public class Main {
                 } else if (standaardRichting == 'Z') {
                     achtbaan.get(verdiep).set(bepaaldePlaats, "#");
                     verdiep++;
-
                 } else {
                     verdiep++;
-
                 }
-
 
             } else if (segment.charAt(i) == 'D') {
+
                 if (standaardRichting == 'O') {
                     verdiep--;
                     initNieuwVerdiep(achtbaan, verdiep, bepaaldePlaats);
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
                     bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "\\", bepaaldePlaats, standaardRichting);
-
                 } else if (standaardRichting == 'W') {
                     verdiep--;
                     initNieuwVerdiep(achtbaan, verdiep, bepaaldePlaats);
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
                     bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "/", bepaaldePlaats, standaardRichting);
-
-
                 } else if (standaardRichting == 'Z') {
                     verdiep--;
                     initNieuwVerdiep(achtbaan, verdiep, bepaaldePlaats);
-
                     achtbaan.get(verdiep).set(bepaaldePlaats, "#");
-
                 } else {
                     verdiep--;
-
                     achtbaan.get(verdiep).set(bepaaldePlaats, "#");
                 }
-
             }
         }
         achtbaanCompleetMaken(achtbaan);
-
         return achtbaan;
     }
 
@@ -177,7 +155,6 @@ public class Main {
     private static void initNieuwVerdiep(Map<Integer, ArrayList<String>> achtbaan, int verdiep, int bepaaldePlaats) {
         if (!achtbaan.containsKey(verdiep)) {
             achtbaan.put(verdiep, vulAchtbaanMetPunten(bepaaldePlaats));
-
         }
     }
 
@@ -189,7 +166,6 @@ public class Main {
                 achtbaanLijn.addAll(vulAchtbaanMetPunten(verschil));
             }
         }
-
     }
 
     private static int zoekLangsteAchtbaan(Map<Integer, ArrayList<String>> achtbaan) {
@@ -233,17 +209,13 @@ public class Main {
                     }
                 }
                 bepaaldePlaats = 0;
-
-
             } else {
                 achtbaan.get(verdiep).set(bepaaldePlaats, teken);
             }
         }
-
         if (windrichting == 'O') {
             bepaaldePlaats++;
         }
-
         return bepaaldePlaats;
     }
 
@@ -251,10 +223,8 @@ public class Main {
         if (achtbaan.get(verdiep).size() != bepaaldePlaats) {
             int verschil = bepaaldePlaats - achtbaan.get(verdiep).size();
             achtbaan.get(verdiep).addAll(vulAchtbaanMetPunten(verschil));
-
         }
     }
-
 
     private static void printenUitkomst(Map<Integer, ArrayList<String>> uitkomst, int test) {
         Map<Integer, ArrayList<String>> gesorteerdeMap = new TreeMap<Integer, ArrayList<String>>(Collections.reverseOrder());
@@ -264,6 +234,4 @@ public class Main {
             System.out.println(test + " " + routeAanEen);
         }
     }
-
-
 }
