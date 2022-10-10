@@ -202,11 +202,7 @@ public class Main {
         } else {
             achtbaan.get(verdiep).set(bepaaldePlaats, teken);
         }
-<<<<<<< Updated upstream
         if (windrichting == 'O' || windrichting == 'Z') {
-=======
-        if (windrichting == 'O'|| windrichting == 'Z') {
->>>>>>> Stashed changes
             bepaaldePlaats++;
         }
         return bepaaldePlaats;
