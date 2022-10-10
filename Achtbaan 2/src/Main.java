@@ -201,7 +201,7 @@ public class Main {
         } else {
             achtbaan.get(verdiep).set(bepaaldePlaats, teken);
         }
-        if (windrichting == 'O') {
+        if (windrichting == 'O' || windrichting == 'Z') {
             bepaaldePlaats++;
         }
         return bepaaldePlaats;
