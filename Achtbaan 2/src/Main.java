@@ -84,20 +84,13 @@ public class Main {
 
                 if (standaardRichting == 'W') {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
-                    if (achtbaanDeelIsNietZichtbaar) {
-                        // TODO fix logic
-                        if (bepaaldePlaats-1 < 0) {
-                            bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
-                        }
-                        else if (achtbaan.get(verdiep).get(bepaaldePlaats - 1).equals(".")) {
-                            bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
-                        }  else {
-                            bepaaldePlaats--;
-                        }
-                    } else if (!achtbaanDeelIsNietZichtbaar) {
+                    if (bepaaldePlaats - 1 < 0 || !achtbaanDeelIsNietZichtbaar) {
                         bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
+                    } else if (achtbaan.get(verdiep).get(bepaaldePlaats - 1).equals(".") && achtbaanDeelIsNietZichtbaar) {
+                        bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
+                    } else if (achtbaanDeelIsNietZichtbaar) {
+                        bepaaldePlaats--;
                     }
-
                 } else if (standaardRichting == 'O') {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
                     bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
