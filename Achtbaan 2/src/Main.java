@@ -54,7 +54,6 @@ public class Main {
                     standaardRichting = 'Z';
                 } else if (standaardRichting == 'N') {
                     standaardRichting = 'W';
-
                 } else if (standaardRichting == 'Z') {
                     bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
                     standaardRichting = 'O';
@@ -71,11 +70,9 @@ public class Main {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
                     bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
                     standaardRichting = 'N';
-
                 } else if (standaardRichting == 'N') {
                     bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
                     standaardRichting = 'O';
-
                 } else if (standaardRichting == 'Z') {
                     standaardRichting = 'W';
                 }
@@ -88,7 +85,8 @@ public class Main {
                 if (standaardRichting == 'W') {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
                     if (achtbaanDeelIsNietZichtbaar) {
-                        if (achtbaan.get(verdiep).get(bepaaldePlaats - 1) == ".") {
+                        // TODO fix logic
+                        if (achtbaan.get(verdiep).get(bepaaldePlaats - 1).equals(".")) {
                             bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
                         } else {
                             bepaaldePlaats--;
@@ -110,7 +108,6 @@ public class Main {
                 } else if (standaardRichting == 'W') {
                     bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "\\", bepaaldePlaats, standaardRichting);
                     verdiep++;
-
                 } else if (standaardRichting == 'Z') {
                     achtbaan.get(verdiep).set(bepaaldePlaats, "#");
                     verdiep++;
@@ -192,26 +189,22 @@ public class Main {
         }
         if (bepaaldePlaats >= achtbaan.get(verdiep).size()) {
             achtbaan.get(verdiep).add(teken);
-        } else {
-            if (bepaaldePlaats == -1) {
-                ArrayList<String> copyRoute = new ArrayList<>(achtbaan.get(verdiep));
-                achtbaan.get(verdiep).clear();
-                achtbaan.get(verdiep).add(teken);
-                achtbaan.get(verdiep).addAll(copyRoute);
-                Iterator<Map.Entry<Integer, ArrayList<String>>> itr = achtbaan.entrySet().iterator();
-                while (itr.hasNext()) {
-                    Map.Entry<Integer, ArrayList<String>> route = itr.next();
-                    if (route.getKey() != verdiep) {
-                        ArrayList<String> addPuntje = new ArrayList<>(route.getValue());
-                        route.getValue().clear();
-                        route.getValue().add(".");
-                        route.getValue().addAll(addPuntje);
-                    }
+        } else if (bepaaldePlaats == -1) {
+            ArrayList<String> copyRoute = new ArrayList<>(achtbaan.get(verdiep));
+            achtbaan.get(verdiep).clear();
+            achtbaan.get(verdiep).add(teken);
+            achtbaan.get(verdiep).addAll(copyRoute);
+            for (Map.Entry<Integer, ArrayList<String>> route : achtbaan.entrySet()) {
+                if (route.getKey() != verdiep) {
+                    ArrayList<String> voegPuntjeToe = new ArrayList<>(route.getValue());
+                    route.getValue().clear();
+                    route.getValue().add(".");
+                    route.getValue().addAll(voegPuntjeToe);
                 }
-                bepaaldePlaats = 0;
-            } else {
-                achtbaan.get(verdiep).set(bepaaldePlaats, teken);
             }
+            bepaaldePlaats = 0;
+        } else {
+            achtbaan.get(verdiep).set(bepaaldePlaats, teken);
         }
         if (windrichting == 'O') {
             bepaaldePlaats++;
