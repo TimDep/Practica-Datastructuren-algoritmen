@@ -46,7 +46,7 @@ public class Main {
 
                 if (standaardRichting == 'O') {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
-                    achtbaan.get(verdiep).add("_");
+                    bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting, true);
                     achtbaanDeelIsNietZichtbaar = true;
                     standaardRichting = 'N';
                 } else if (standaardRichting == 'W') {
@@ -64,7 +64,7 @@ public class Main {
 
                 if (standaardRichting == 'O') {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
-                    achtbaan.get(verdiep).add("_");
+                    bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting, true);
                     achtbaanDeelIsNietZichtbaar = false;
                     standaardRichting = 'Z';
                 } else if (standaardRichting == 'W') {
@@ -180,6 +180,17 @@ public class Main {
             Integer bepaaldePlaats,
             char windrichting
     ) {
+        return voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, teken, bepaaldePlaats, windrichting, false);
+    }
+
+    private static Integer voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(
+            Map<Integer, ArrayList<String>> achtbaan,
+            Integer verdiep,
+            String teken,
+            Integer bepaaldePlaats,
+            char windrichting,
+            boolean isDraaiBeweging
+    ) {
         if (windrichting == 'W') {
             bepaaldePlaats--;
         }
@@ -202,7 +213,7 @@ public class Main {
         } else {
             achtbaan.get(verdiep).set(bepaaldePlaats, teken);
         }
-        if (windrichting == 'O' || windrichting == 'Z') {
+        if ((windrichting == 'O' && !isDraaiBeweging) || windrichting == 'Z') {
             bepaaldePlaats++;
         }
         return bepaaldePlaats;
