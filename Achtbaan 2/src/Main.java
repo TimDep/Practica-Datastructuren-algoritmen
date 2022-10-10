@@ -41,7 +41,8 @@ public class Main {
 
         for (int i = 0; i < segment.length(); i++) {
             initNieuwVerdiep(achtbaan, verdiep, bepaaldePlaats);
-            if (segment.charAt(i) == 'L') {
+            char routeSegment = segment.charAt(i);
+            if (routeSegment == 'L') {
 
                 if (standaardRichting == 'O') {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
@@ -59,7 +60,7 @@ public class Main {
                     standaardRichting = 'O';
                 }
 
-            } else if (segment.charAt(i) == 'R') {
+            } else if (routeSegment == 'R') {
 
                 if (standaardRichting == 'O') {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
@@ -77,10 +78,10 @@ public class Main {
                     standaardRichting = 'W';
                 }
 
-            } else if (segment.charAt(i) == 'S') {
+            } else if (routeSegment == 'S') {
                 achtbaan.get(verdiep).add("=");
                 bepaaldePlaats++;
-            } else if (segment.charAt(i) == 'V') {
+            } else if (routeSegment == 'V') {
 
                 if (standaardRichting == 'W') {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
@@ -95,7 +96,7 @@ public class Main {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
                     bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
                 }
-            } else if (segment.charAt(i) == 'U') {
+            } else if (routeSegment == 'U') {
 
                 if (standaardRichting == 'O') {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
@@ -111,7 +112,7 @@ public class Main {
                     verdiep++;
                 }
 
-            } else if (segment.charAt(i) == 'D') {
+            } else if (routeSegment == 'D') {
 
                 if (standaardRichting == 'O') {
                     verdiep--;
