@@ -86,9 +86,12 @@ public class Main {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
                     if (achtbaanDeelIsNietZichtbaar) {
                         // TODO fix logic
-                        if (achtbaan.get(verdiep).get(bepaaldePlaats - 1).equals(".")) {
+                        if (bepaaldePlaats-1 < 0) {
                             bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
-                        } else {
+                        }
+                        else if (achtbaan.get(verdiep).get(bepaaldePlaats - 1).equals(".")) {
+                            bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
+                        }  else {
                             bepaaldePlaats--;
                         }
                     } else if (!achtbaanDeelIsNietZichtbaar) {
@@ -183,7 +186,6 @@ public class Main {
             Integer bepaaldePlaats,
             char windrichting
     ) {
-        System.out.println(bepaaldePlaats);
         if (windrichting == 'W') {
             bepaaldePlaats--;
         }
