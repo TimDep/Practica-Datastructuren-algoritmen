@@ -7,6 +7,7 @@ public class Main {
         int aantalTestgevallen = Integer.parseInt(sc.nextLine());
         if (aantalTestgevallen < 1) {
             System.out.println("Er kunnen niet minder dan 1 testgeval zijn.");
+            System.exit(0);
         } else if (aantalTestgevallen > 1000) {
             System.out.println("Dit ligt buiten de limieten van dit programma.");
             System.exit(0);
@@ -16,13 +17,21 @@ public class Main {
 
             if (aantalSegmenten < 6) {
                 System.out.println("Dit zijn te weinig segmenten om een achtbaan te maken.");
+                System.exit(0);
             } else if (aantalSegmenten > 500) {
                 System.out.println("Dit zijn te veel segmenten om een achtbaan te maken.");
+                System.exit(0);
             } else {
                 String segment = sc.nextLine();
-                int verdiep = 0;
-                Map<Integer, ArrayList<String>> uitkomst = zoekenNaarCharacter(segment, verdiep);
-                printenUitkomst(uitkomst, i);
+                if (segment.length() != aantalSegmenten) {
+                    System.out.println("Je hebt teveel segmenten ingetypt dan je vooraf declareerde.");
+                    System.exit(0);
+                } else {
+                    int verdiep = 0;
+                    Map<Integer, ArrayList<String>> uitkomst = zoekenNaarCharacter(segment, verdiep);
+                    printenUitkomst(uitkomst, i);
+                }
+
             }
         }
     }
@@ -189,7 +198,7 @@ public class Main {
             String teken,
             Integer bepaaldePlaats,
             char windrichting,
-            boolean isDraaiBeweging
+            boolean bepaaldePlaatsNietOptellen
     ) {
         if (windrichting == 'W') {
             bepaaldePlaats--;
@@ -213,7 +222,7 @@ public class Main {
         } else {
             achtbaan.get(verdiep).set(bepaaldePlaats, teken);
         }
-        if ((windrichting == 'O' && !isDraaiBeweging) || windrichting == 'Z') {
+        if ((windrichting == 'O' && !bepaaldePlaatsNietOptellen) || windrichting == 'Z') {
             bepaaldePlaats++;
         }
         return bepaaldePlaats;
