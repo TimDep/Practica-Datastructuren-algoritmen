@@ -46,7 +46,7 @@ public class Main {
 
                 if (standaardRichting == 'O') {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
-                    achtbaan.get(verdiep).add("_");
+                    bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
                     achtbaanDeelIsNietZichtbaar = true;
                     standaardRichting = 'N';
                 } else if (standaardRichting == 'W') {
@@ -202,7 +202,11 @@ public class Main {
         } else {
             achtbaan.get(verdiep).set(bepaaldePlaats, teken);
         }
+<<<<<<< Updated upstream
         if (windrichting == 'O' || windrichting == 'Z') {
+=======
+        if (windrichting == 'O'|| windrichting == 'Z') {
+>>>>>>> Stashed changes
             bepaaldePlaats++;
         }
         return bepaaldePlaats;
