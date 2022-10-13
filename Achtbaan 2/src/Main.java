@@ -28,7 +28,7 @@ public class Main {
                     System.exit(0);
                 } else {
                     int verdiep = 0;
-                    Map<Integer, ArrayList<String>> uitkomst = zoekenNaarCharacter(segment, verdiep);
+                    Map<Integer, ArrayList<String>> uitkomst = zoekenNaarCharacters(segment, verdiep);
                     printenUitkomst(uitkomst, i);
                 }
 
@@ -36,20 +36,20 @@ public class Main {
         }
     }
 
-    private static Map<Integer, ArrayList<String>> initialiseerAchtbaan(int verdiep) {
+    private static Map<Integer, ArrayList<String>> initialiseerAchtbaan(int verdiep) { //als er een nieuw verdiep is moet er een nieuwe arraylist geinitialiseerd worden
         Map<Integer, ArrayList<String>> achtbaan = new HashMap<>();
         achtbaan.put(verdiep, new ArrayList<>());
         return achtbaan;
     }
 
-    private static Map<Integer, ArrayList<String>> zoekenNaarCharacter(String segment, int verdiep) {
+    private static Map<Integer, ArrayList<String>> zoekenNaarCharacters(String segment, int verdiep) {
         Map<Integer, ArrayList<String>> achtbaan = initialiseerAchtbaan(verdiep);
         int bepaaldePlaats = 0;
         boolean achtbaanDeelIsNietZichtbaar = false;
         char standaardRichting = 'O';
 
         for (int i = 0; i < segment.length(); i++) {
-            initNieuwVerdiep(achtbaan, verdiep, bepaaldePlaats);
+            initNieuwVerdiep(achtbaan, verdiep, bepaaldePlaats); //per letter kijken of we op een nieuw verdiep zitten
             char routeSegment = segment.charAt(i);
             if (routeSegment == 'L') {
 
@@ -147,7 +147,7 @@ public class Main {
         return achtbaan;
     }
 
-    private static ArrayList<String> vulAchtbaanMetPunten(int bepaaldePlaats) {
+    private static ArrayList<String> vulAchtbaanMetPunten(int bepaaldePlaats) { //hierbij worden er puntjes toegevoegd aan de array tot een bepaalde plaats
         ArrayList<String> vullen = new ArrayList<>();
         for (int i = 0; i < bepaaldePlaats; i++) {
             vullen.add(".");
@@ -161,7 +161,7 @@ public class Main {
         }
     }
 
-    private static void achtbaanCompleetMaken(Map<Integer, ArrayList<String>> achtbaan) {
+    private static void achtbaanCompleetMaken(Map<Integer, ArrayList<String>> achtbaan) { //hierbij zullen we de het verschil berkenen per arraylist om te weten hoeveel we moeten toevoegen
         int langsteLijn = zoekLangsteAchtbaan(achtbaan);
         for (ArrayList<String> achtbaanLijn : achtbaan.values()) {
             if (achtbaanLijn.size() < langsteLijn) {
@@ -171,7 +171,7 @@ public class Main {
         }
     }
 
-    private static int zoekLangsteAchtbaan(Map<Integer, ArrayList<String>> achtbaan) {
+    private static int zoekLangsteAchtbaan(Map<Integer, ArrayList<String>> achtbaan) { //hierbij zoeken we de langste arraylist per verdiep
         int langsteLijn = 0;
         for (ArrayList<String> achtbaanLijn : achtbaan.values()) {
             int achtbaanLengte = achtbaanLijn.size();
@@ -200,17 +200,17 @@ public class Main {
             char windrichting,
             boolean bepaaldePlaatsNietOptellen
     ) {
-        if (windrichting == 'W') {
+        if (windrichting == 'W') { //indien we west gaan zullen we eerst de bepaalde plaats aftrekken zodanig dat we op de juiste plaats ervoor kunnen invullen
             bepaaldePlaats--;
         }
-        if (bepaaldePlaats >= achtbaan.get(verdiep).size()) {
+        if (bepaaldePlaats >= achtbaan.get(verdiep).size()) { //als de plaats waar we moeten toevoegen gelijk is an de lengte van de array moeten we gewoon het teken toevoegen
             achtbaan.get(verdiep).add(teken);
-        } else if (bepaaldePlaats == -1) {
+        } else if (bepaaldePlaats == -1) { // als we op een negatieve index moeten plaatsen betekent dat we een rij voor die arraylist moeten invoeren
             ArrayList<String> copyRoute = new ArrayList<>(achtbaan.get(verdiep));
             achtbaan.get(verdiep).clear();
             achtbaan.get(verdiep).add(teken);
             achtbaan.get(verdiep).addAll(copyRoute);
-            for (Map.Entry<Integer, ArrayList<String>> route : achtbaan.entrySet()) {
+            for (Map.Entry<Integer, ArrayList<String>> route : achtbaan.entrySet()) { //dit zorgt ervoor dat we op de andere verdiepen dan deze van daarnet ook een punt gaan toevoegen zodanig dat alles tegenover elkaar op de juiste plaats blijft staan
                 if (route.getKey() != verdiep) {
                     ArrayList<String> voegPuntjeToe = new ArrayList<>(route.getValue());
                     route.getValue().clear();
@@ -220,15 +220,15 @@ public class Main {
             }
             bepaaldePlaats = 0;
         } else {
-            achtbaan.get(verdiep).set(bepaaldePlaats, teken);
+            achtbaan.get(verdiep).set(bepaaldePlaats, teken); // indien geen -1 moeten we gewoon het teken op die plaats gaan vervangen
         }
-        if ((windrichting == 'O' && !bepaaldePlaatsNietOptellen) || windrichting == 'Z') {
+        if ((windrichting == 'O' && !bepaaldePlaatsNietOptellen) || windrichting == 'Z') { //achter dat we het teken toegevoegd hebben zullen we de index/bepaaldeplaats verhogen, de !bepaaldeplaatsnietoptellen wordt gebruikt als we met een naar links of naar rechts zitten en verder moeten naar oost tellen we ook op anders niet.
             bepaaldePlaats++;
         }
         return bepaaldePlaats;
     }
 
-    private static void isDeLengteVanDeArrayCorrect(Map<Integer, ArrayList<String>> achtbaan, int verdiep, int bepaaldePlaats) {
+    private static void isDeLengteVanDeArrayCorrect(Map<Integer, ArrayList<String>> achtbaan, int verdiep, int bepaaldePlaats) { //indien we op een verdere plaats in de array komen waar tussen nog geen tekens staan zullen we die dan er tussen vullen met puntjes
         if (achtbaan.get(verdiep).size() != bepaaldePlaats) {
             int verschil = bepaaldePlaats - achtbaan.get(verdiep).size();
             achtbaan.get(verdiep).addAll(vulAchtbaanMetPunten(verschil));
@@ -236,7 +236,7 @@ public class Main {
     }
 
     private static void printenUitkomst(Map<Integer, ArrayList<String>> uitkomst, int test) {
-        Map<Integer, ArrayList<String>> gesorteerdeMap = new TreeMap<Integer, ArrayList<String>>(Collections.reverseOrder());
+        Map<Integer, ArrayList<String>> gesorteerdeMap = new TreeMap<Integer, ArrayList<String>>(Collections.reverseOrder()); //hierbij worden de verdiepen gesorteerd aan de hand van een Treemap
         gesorteerdeMap.putAll(uitkomst);
         for (Map.Entry<Integer, ArrayList<String>> entry : gesorteerdeMap.entrySet()) {
             String routeAanEen = String.join("", entry.getValue());
