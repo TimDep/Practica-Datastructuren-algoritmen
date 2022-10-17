@@ -23,7 +23,7 @@ public class Main {
                 System.exit(0);
             } else {
                 String segment = sc.nextLine();
-                if (segment.length() != aantalSegmenten) {
+                if (segment.length()-1 != aantalSegmenten) {
                     System.out.println("Je hebt teveel segmenten ingetypt dan je vooraf declareerde.");
                     System.exit(0);
                 } else {
@@ -65,6 +65,7 @@ public class Main {
                 } else if (standaardRichting == 'N') {
                     standaardRichting = 'W';
                 } else if (standaardRichting == 'Z') {
+                    isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
                     bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
                     standaardRichting = 'O';
                 }
@@ -81,6 +82,7 @@ public class Main {
                     bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
                     standaardRichting = 'N';
                 } else if (standaardRichting == 'N') {
+                    isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
                     bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
                     standaardRichting = 'O';
                 } else if (standaardRichting == 'Z') {
@@ -94,9 +96,7 @@ public class Main {
 
                 if (standaardRichting == 'W') {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
-                    if (bepaaldePlaats - 1 < 0 || !achtbaanDeelIsNietZichtbaar) {
-                        bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
-                    } else if (achtbaan.get(verdiep).get(bepaaldePlaats - 1).equals(".") && achtbaanDeelIsNietZichtbaar) {
+                    if (bepaaldePlaats - 1 < 0 || !achtbaanDeelIsNietZichtbaar ||achtbaan.get(verdiep).get(bepaaldePlaats - 1).equals(".") && achtbaanDeelIsNietZichtbaar ){
                         bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
                     } else if (achtbaanDeelIsNietZichtbaar) {
                         bepaaldePlaats--;
@@ -112,12 +112,16 @@ public class Main {
                     bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "/", bepaaldePlaats, standaardRichting);
                     verdiep++;
                 } else if (standaardRichting == 'W') {
+                    isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
                     bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "\\", bepaaldePlaats, standaardRichting);
                     verdiep++;
                 } else if (standaardRichting == 'Z') {
-                    achtbaan.get(verdiep).set(bepaaldePlaats, "#");
+                    isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
+                    bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "#", bepaaldePlaats, standaardRichting, true);
                     verdiep++;
                 } else {
+                    isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
+                    bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "#", bepaaldePlaats, standaardRichting, true);
                     verdiep++;
                 }
 
@@ -136,10 +140,13 @@ public class Main {
                 } else if (standaardRichting == 'Z') {
                     verdiep--;
                     initNieuwVerdiep(achtbaan, verdiep, bepaaldePlaats);
-                    achtbaan.get(verdiep).set(bepaaldePlaats, "#");
+                    isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
+                    bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "#", bepaaldePlaats, standaardRichting, true);
                 } else {
                     verdiep--;
-                    achtbaan.get(verdiep).set(bepaaldePlaats, "#");
+                    initNieuwVerdiep(achtbaan, verdiep, bepaaldePlaats);
+                    isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
+                    bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "#", bepaaldePlaats, standaardRichting,true);
                 }
             }
         }
@@ -203,7 +210,7 @@ public class Main {
         if (windrichting == 'W') { //indien we west gaan zullen we eerst de bepaalde plaats aftrekken zodanig dat we op de juiste plaats ervoor kunnen invullen
             bepaaldePlaats--;
         }
-        if (bepaaldePlaats >= achtbaan.get(verdiep).size()) { //als de plaats waar we moeten toevoegen gelijk is an de lengte van de array moeten we gewoon het teken toevoegen
+        if (bepaaldePlaats == achtbaan.get(verdiep).size()) { //als de plaats waar we moeten toevoegen gelijk is aan de lengte van de array moeten we gewoon het teken toevoegen
             achtbaan.get(verdiep).add(teken);
         } else if (bepaaldePlaats == -1) { // als we op een negatieve index moeten plaatsen betekent dat we een rij voor die arraylist moeten invoeren
             ArrayList<String> copyRoute = new ArrayList<>(achtbaan.get(verdiep));
@@ -222,9 +229,10 @@ public class Main {
         } else {
             achtbaan.get(verdiep).set(bepaaldePlaats, teken); // indien geen -1 moeten we gewoon het teken op die plaats gaan vervangen
         }
-        if ((windrichting == 'O' && !bepaaldePlaatsNietOptellen) || windrichting == 'Z') { //achter dat we het teken toegevoegd hebben zullen we de index/bepaaldeplaats verhogen, de !bepaaldeplaatsnietoptellen wordt gebruikt als we met een naar links of naar rechts zitten en verder moeten naar oost tellen we ook op anders niet.
+        if ((windrichting == 'O' && !bepaaldePlaatsNietOptellen) || windrichting == 'Z' && !bepaaldePlaatsNietOptellen || windrichting == 'N' && !bepaaldePlaatsNietOptellen) { //achter dat we het teken toegevoegd hebben zullen we de index/bepaaldeplaats verhogen, de !bepaaldeplaatsnietoptellen wordt gebruikt als we met een naar links of naar rechts zitten en verder moeten naar oost tellen we ook op anders niet.
             bepaaldePlaats++;
         }
+
         return bepaaldePlaats;
     }
 
