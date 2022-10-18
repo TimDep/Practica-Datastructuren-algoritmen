@@ -45,7 +45,7 @@ public class Main {
     private static Map<Integer, ArrayList<String>> zoekenNaarCharacters(String segment, int verdiep) {
         Map<Integer, ArrayList<String>> achtbaan = initialiseerAchtbaan(verdiep);
         int bepaaldePlaats = 0;
-        boolean achtbaanDeelIsNietZichtbaar = false;
+        boolean achtbaanDeelIsZichtbaar = true;
         char standaardRichting = 'O';
 
         for (int i = 0; i < segment.length(); i++) {
@@ -56,7 +56,7 @@ public class Main {
                 if (standaardRichting == 'O') {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
                     bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting, true);
-                    achtbaanDeelIsNietZichtbaar = true;
+                    achtbaanDeelIsZichtbaar = false;
                     standaardRichting = 'N';
                 } else if (standaardRichting == 'W') {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
@@ -75,7 +75,7 @@ public class Main {
                 if (standaardRichting == 'O') {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
                     bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting, true);
-                    achtbaanDeelIsNietZichtbaar = false;
+                    achtbaanDeelIsZichtbaar = true;
                     standaardRichting = 'Z';
                 } else if (standaardRichting == 'W') {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
@@ -96,9 +96,9 @@ public class Main {
 
                 if (standaardRichting == 'W') {
                     isDeLengteVanDeArrayCorrect(achtbaan, verdiep, bepaaldePlaats);
-                    if (bepaaldePlaats - 1 < 0 || !achtbaanDeelIsNietZichtbaar ||achtbaan.get(verdiep).get(bepaaldePlaats - 1).equals(".") && achtbaanDeelIsNietZichtbaar ){
+                    if (bepaaldePlaats - 1 < 0 || achtbaanDeelIsZichtbaar ||achtbaan.get(verdiep).get(bepaaldePlaats - 1).equals(".") && !achtbaanDeelIsZichtbaar ){
                         bepaaldePlaats = voegTekenToeOpEenBepaaldePlaatsInDeAchtbaan(achtbaan, verdiep, "_", bepaaldePlaats, standaardRichting);
-                    } else if (achtbaanDeelIsNietZichtbaar) {
+                    } else if (achtbaanDeelIsZichtbaar) {
                         bepaaldePlaats--;
                     }
                 } else if (standaardRichting == 'O') {
