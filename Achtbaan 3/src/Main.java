@@ -1,12 +1,12 @@
 import java.util.*;
 
-class achtbaan {
+class Achtbaan {
     private Integer x;
     private Integer y;
     private Integer z;
     private String symbool;
 
-    public achtbaan(Integer x, Integer y, Integer z, String symbool) {
+    public Achtbaan(Integer x, Integer y, Integer z, String symbool) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -37,9 +37,9 @@ class achtbaan {
         return this.symbool;
     }
 
-    public static Comparator<achtbaan> achtbaanComparator = new Comparator<achtbaan>() {
+    public static Comparator<Achtbaan> achtbaanComparator = new Comparator<>() {
         @Override
-        public int compare(achtbaan z1, achtbaan z2) {
+        public int compare(Achtbaan z1, Achtbaan z2) {
             return z1.getZ().compareTo(z2.getZ());
         }
     };
@@ -62,24 +62,24 @@ public class Main {
             if (aantalSegmenten < 6) {
                 System.out.println("Dit zijn te weinig segmenten om een achtbaan te maken.");
                 System.exit(0);
-            } else if (aantalSegmenten > 500) {
+            } else if (aantalSegmenten > 600) {
                 System.out.println("Dit zijn te veel segmenten om een achtbaan te maken.");
-                System.exit(0);
+
             } else {
                 String segment = sc.nextLine();
                 if (segment.length() - 1 != aantalSegmenten) {
                     System.out.println("Je hebt teveel segmenten ingetypt dan je vooraf declareerde.");
                     System.exit(0);
                 } else {
-                    ArrayList<achtbaan> plaats = zoekenNaarCharacters(segment);
+                    ArrayList<Achtbaan> plaats = zoekenNaarCharacters(segment);
                     verschuivenVanCoordinaten(plaats, i);
                 }
             }
         }
     }
 
-    private static ArrayList<achtbaan> zoekenNaarCharacters(String segment) {
-        ArrayList<achtbaan> segmenten = new ArrayList<>();
+    private static ArrayList<Achtbaan> zoekenNaarCharacters(String segment) {
+        ArrayList<Achtbaan> segmenten = new ArrayList<>();
         int x = 0;
         int y = 0;
         int z = 0;
@@ -89,75 +89,75 @@ public class Main {
             char routeSegment = segment.charAt(i);
             if (routeSegment == 'L') {
                 if (standaardRichting == 'O') {
-                    segmenten.add(new achtbaan(x, y, z, "_"));
+                    segmenten.add(new Achtbaan(x, y, z, "_"));
                     z--;
                     standaardRichting = 'N';
                 } else if (standaardRichting == 'W') {
-                    segmenten.add(new achtbaan(x, y, z, "_"));
+                    segmenten.add(new Achtbaan(x, y, z, "_"));
                     z++;
                     standaardRichting = 'Z';
                 } else if (standaardRichting == 'N') {
-                    segmenten.add(new achtbaan(x, y, z, "_"));
+                    segmenten.add(new Achtbaan(x, y, z, "_"));
                     x--;
                     standaardRichting = 'W';
                 } else if (standaardRichting == 'Z') {
-                    segmenten.add(new achtbaan(x, y, z, "_"));
+                    segmenten.add(new Achtbaan(x, y, z, "_"));
                     x++;
                     standaardRichting = 'O';
                 }
 
             } else if (routeSegment == 'R') {
                 if (standaardRichting == 'O') {
-                    segmenten.add(new achtbaan(x, y, z, "_"));
+                    segmenten.add(new Achtbaan(x, y, z, "_"));
                     z++;
                     standaardRichting = 'Z';
                 } else if (standaardRichting == 'W') {
-                    segmenten.add(new achtbaan(x, y, z, "_"));
+                    segmenten.add(new Achtbaan(x, y, z, "_"));
                     z--;
                     standaardRichting = 'N';
                 } else if (standaardRichting == 'N') {
-                    segmenten.add(new achtbaan(x, y, z, "_"));
+                    segmenten.add(new Achtbaan(x, y, z, "_"));
                     x++;
                     standaardRichting = 'O';
                 } else if (standaardRichting == 'Z') {
-                    segmenten.add(new achtbaan(x, y, z, "_"));
+                    segmenten.add(new Achtbaan(x, y, z, "_"));
                     x--;
                     standaardRichting = 'W';
                 }
 
             } else if (routeSegment == 'S') {
-                segmenten.add(new achtbaan(x, y, z, "="));
+                segmenten.add(new Achtbaan(x, y, z, "="));
                 x++;
 
             } else if (routeSegment == 'V') {
                 if (standaardRichting == 'W') {
-                    segmenten.add(new achtbaan(x, y, z, "_"));
+                    segmenten.add(new Achtbaan(x, y, z, "_"));
                     x--;
                 } else if (standaardRichting == 'O') {
-                    segmenten.add(new achtbaan(x, y, z, "_"));
+                    segmenten.add(new Achtbaan(x, y, z, "_"));
                     x++;
                 } else if (standaardRichting == 'N') {
-                    segmenten.add(new achtbaan(x, y, z, "_"));
+                    segmenten.add(new Achtbaan(x, y, z, "_"));
                     z--;
                 } else if (standaardRichting == 'Z') {
-                    segmenten.add(new achtbaan(x, y, z, "_"));
+                    segmenten.add(new Achtbaan(x, y, z, "_"));
                     z++;
                 }
             } else if (routeSegment == 'U') {
                 if (standaardRichting == 'O') {
-                    segmenten.add(new achtbaan(x, y, z, "/"));
+                    segmenten.add(new Achtbaan(x, y, z, "/"));
                     x++;
                     y++;
                 } else if (standaardRichting == 'W') {
-                    segmenten.add(new achtbaan(x, y, z, "\\"));
+                    segmenten.add(new Achtbaan(x, y, z, "\\"));
                     x--;
                     y++;
                 } else if (standaardRichting == 'Z') {
-                    segmenten.add(new achtbaan(x, y, z, "#"));
+                    segmenten.add(new Achtbaan(x, y, z, "#"));
                     z++;
                     y++;
                 } else if (standaardRichting == 'N') {
-                    segmenten.add(new achtbaan(x, y, z, "#"));
+                    segmenten.add(new Achtbaan(x, y, z, "#"));
                     z--;
                     y++;
                 }
@@ -165,19 +165,19 @@ public class Main {
             } else if (routeSegment == 'D') {
                 if (standaardRichting == 'O') {
                     y--;
-                    segmenten.add(new achtbaan(x, y, z, "\\"));
+                    segmenten.add(new Achtbaan(x, y, z, "\\"));
                     x++;
                 } else if (standaardRichting == 'W') {
                     y--;
-                    segmenten.add(new achtbaan(x, y, z, "/"));
+                    segmenten.add(new Achtbaan(x, y, z, "/"));
                     x--;
                 } else if (standaardRichting == 'Z') {
                     y--;
-                    segmenten.add(new achtbaan(x, y, z, "#"));
+                    segmenten.add(new Achtbaan(x, y, z, "#"));
                     z++;
                 } else if (standaardRichting == 'N') {
                     y--;
-                    segmenten.add(new achtbaan(x, y, z, "#"));
+                    segmenten.add(new Achtbaan(x, y, z, "#"));
                     z--;
                 }
             }
@@ -185,7 +185,7 @@ public class Main {
         return segmenten;
     }
 
-    private static void verschuivenVanCoordinaten(ArrayList<achtbaan> segmenten, int tests) {
+    private static void verschuivenVanCoordinaten(ArrayList<Achtbaan> segmenten, int tests) {
         int minX = 0;
         int maxX = 0;
         int minY = 0;
@@ -242,11 +242,11 @@ public class Main {
         return uitkomst;
     }
 
-    private static void sorterenOpZWaarde(ArrayList<achtbaan> segmenten){
-        segmenten.sort(achtbaan.achtbaanComparator);
+    private static void sorterenOpZWaarde(ArrayList<Achtbaan> segmenten){
+        segmenten.sort(Achtbaan.achtbaanComparator);
     }
 
-    private static void arrayGaanVullenMetSymbolen(String[][] uitkomst, ArrayList<achtbaan> segmenten, int maxY, int test){
+    private static void arrayGaanVullenMetSymbolen(String[][] uitkomst, ArrayList<Achtbaan> segmenten, int maxY, int test){
         for (int i =0; i<segmenten.size(); i++){
             uitkomst[maxY-segmenten.get(i).getY()][segmenten.get(i).getX()] = segmenten.get(i).getSymbool();
         }
