@@ -47,9 +47,8 @@ public class Main {
                 code.add(new Codes(lettercode, letter));
             }
             code.sort(Codes.codesComparator);
-            System.out.print("");
             System.out.print(i + " ");
-            woordZoeken(signalen, oplossing);
+            woordZoeken(signalen);
             Collections.sort(woorden);
             if (woorden.isEmpty()) {
                 System.out.println("ONMOGELIJK");
@@ -59,13 +58,14 @@ public class Main {
         }
     }
 
-    private static void woordZoeken(String signaal, StringBuilder oplossing) {
+    private static void woordZoeken(String signaal) {
         int lengte = oplossing.length();
         if (signaal.isEmpty() && !woorden.contains(oplossing.toString()) && woorden.isEmpty()) {
             woorden.add(oplossing.toString());
         }
         if (!woorden.isEmpty()) {
             if (lengte > woorden.get(0).length()) {
+                oplossing.deleteCharAt(oplossing.length() - 1);
                 return;
             } else if (lengte < woorden.get(0).length() && signaal.equals("")) {
                 woorden.clear();
@@ -77,7 +77,7 @@ public class Main {
         for (Codes codes : code) {
             if (signaal.startsWith(codes.getCode())) {
                 oplossing.append(codes.getLetter());
-                woordZoeken(signaal.substring(codes.getCode().length()), oplossing);
+                woordZoeken(signaal.substring(codes.getCode().length()));
             }
         }
         if (oplossing.length() != 0) {
