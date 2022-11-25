@@ -67,13 +67,14 @@ public class Main {
             if (lengte > woorden.get(0).length()) {
                 oplossing.deleteCharAt(oplossing.length() - 1);
                 return;
-            } else if (lengte < woorden.get(0).length() && signaal.equals("")) {
+            } else if (lengte < woorden.get(0).length() && signaal.isEmpty()) {
                 woorden.clear();
                 woorden.add(oplossing.toString());
-            } else if (lengte == woorden.get(0).length() && signaal.equals("")) {
+            } else if (lengte == woorden.get(0).length() && signaal.isEmpty()) {
                 woorden.add(oplossing.toString());
             }
         }
+
         for (Codes codes : code) {
             if (signaal.startsWith(codes.getCode())) {
                 oplossing.append(codes.getLetter());
