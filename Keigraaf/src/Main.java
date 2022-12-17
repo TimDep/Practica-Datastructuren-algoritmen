@@ -7,12 +7,12 @@ public class Main {
         for (int i = 1; i <= aantalTestgevallen; i++) {
             int aantalKnopen = sc.nextInt();
             Map<Integer, ArrayList<Integer>> bogen = new HashMap<>();
-            ArrayList<ArrayList<Integer>> knopen = new ArrayList<>();
+            Map<ArrayList<Integer>, Integer> knopen = new HashMap<>();
             ArrayList<Integer> beginknopen = new ArrayList<>();
             for (int j = 0; j < aantalKnopen; j++) {
                 beginknopen.add(sc.nextInt());
             }
-            knopen.add(beginknopen);
+            knopen.put(beginknopen, 0);
             int aantalBogen = sc.nextInt();
             for (int j = 0; j < aantalBogen; j++) {
                 int vertrek = sc.nextInt();
@@ -20,13 +20,12 @@ public class Main {
                 bogen.computeIfAbsent(vertrek - 1, k -> new ArrayList<>()).add(aankomst - 1);
                 bogen.computeIfAbsent(aankomst - 1, k -> new ArrayList<>()).add(vertrek - 1);
             }
-            ArrayList<Integer> tussenArray = new ArrayList<>();
-            tussenArray.addAll(beginknopen);
+            ArrayList<Integer> tussenArray = new ArrayList<>(beginknopen);
             oplossen(bogen, knopen, tussenArray);
         }
     }
 
-    private static void oplossen(Map<Integer, ArrayList<Integer>> bogen, ArrayList<ArrayList<Integer>> knopen, ArrayList<Integer> tussenArray) {
+    private static void oplossen(Map<Integer, ArrayList<Integer>> bogen, Map<ArrayList<Integer>, Integer> knopen, ArrayList<Integer> tussenArray) {
         int periode = 0;
         while (periode == 0) {
             ArrayList<Integer> resultaat = new ArrayList<>();
@@ -49,13 +48,11 @@ public class Main {
         System.out.println(periode);
     }
 
-    private static int arraysVergelijken(ArrayList<ArrayList<Integer>> knopen, ArrayList<Integer> resultaat) {
-        for (int i = 0; i < knopen.size(); i++) {
-            if (resultaat.equals(knopen.get(i))) {
-                return knopen.size() - i;
-            }
+    private static int arraysVergelijken(Map<ArrayList<Integer>, Integer> knopen, ArrayList<Integer> resultaat) {
+        if (knopen.containsKey(resultaat)) {
+            return knopen.size() - knopen.get(resultaat);
         }
-        knopen.add(resultaat);
+        knopen.put(resultaat, knopen.size());
         return 0;
     }
 }
