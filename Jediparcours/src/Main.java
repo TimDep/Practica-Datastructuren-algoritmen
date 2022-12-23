@@ -39,9 +39,9 @@ public class Main {
                 graaf.boog[j].d = sc.nextInt() - 1;
                 graaf.boog[j].w = sc.nextInt();
             }
-            System.out.println("");
             System.out.print(i + 1 + " ");
             bellmanFord(graaf, 0);
+            System.out.println("");
         }
     }
 
@@ -78,5 +78,4 @@ public class Main {
             System.out.print(afstand[knopen - 1]);
         }
     }
-
 }
