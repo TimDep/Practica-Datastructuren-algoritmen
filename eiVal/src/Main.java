@@ -26,6 +26,6 @@ public class Main {
                 }
             }
         }
-        System.out.println(Arrays.deepToString(rooster));;
+        System.out.println(Arrays.deepToString(rooster));
     }
 }
